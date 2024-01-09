@@ -3,7 +3,7 @@ from decimal import Decimal
 from typing import Annotated
 from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from sqlalchemy.orm import Session
 from finance_control_be.dependencies.db_session import get_session
 from finance_control_be.dependencies.pagination import PaginationParameter
@@ -116,6 +116,15 @@ class SubscriptionPatchDto(BaseModel):
         subscription.is_active = self.is_active or subscription.is_active
 
 
+class SubscriptionNextPaidDate(BaseModel):
+    """The next date of the subscription payment."""
+
+    model_config = ConfigDict(ser_json_timedelta="iso8601")
+
+    last_purchased_at: date
+    next_date_of_payment: date
+
+
 @router.get("/")
 def list_subscriptions(
     method_id: UUID,
@@ -195,4 +204,52 @@ def delete_subscription(
         raise HTTPException(status_code=404)
 
     session.delete(subscription)
+    session.commit()
+
+
+@router.get(
+    "/{subscription_id}/next-payment-date",
+    description="Get the estimated date of the next payment.",
+)
+def get_estimated_next_paid_date(
+    subscription_id: UUID,
+    session: Annotated[Session, Depends(get_session)],
+) -> SubscriptionNextPaidDate:
+    subscription = (
+        session.query(Subscription).filter(Subscription.id == subscription_id).first()
+    )
+    if subscription is None:
+        raise HTTPException(status_code=404)
+
+    today = datetime.now().date()
+    td = subscription.period_to_timedelta()
+
+    # calculate the next date of payment
+    # FIXME: performance?
+    next_date_of_payment = subscription.purchased_at
+    while next_date_of_payment <= today:
+        next_date_of_payment += td
+
+    return SubscriptionNextPaidDate(
+        last_purchased_at=subscription.purchased_at,
+        next_date_of_payment=next_date_of_payment,
+    )
+
+
+@router.post(
+    "/{subscription_id}/mark-purchased",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def mark_subscription_as_purchased(
+    subscription_id: UUID,
+    session: Annotated[Session, Depends(get_session)],
+):
+    subscription = (
+        session.query(Subscription).filter(Subscription.id == subscription_id).first()
+    )
+    if subscription is None:
+        raise HTTPException(status_code=404)
+
+    subscription.purchased_at = datetime.now().date()
+    session.merge(subscription)
     session.commit()
