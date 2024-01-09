@@ -14,6 +14,7 @@ dependencies = [
     "loguru>=0.7.2",
     "psycopg2>=2.9.9",
     "python-multipart>=0.0.6",
+    "python-dateutil>=2.8.2",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
