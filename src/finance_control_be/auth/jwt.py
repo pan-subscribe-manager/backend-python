@@ -8,7 +8,6 @@ from finance_control_be.auth.const import (
     SECRET_KEY,
 )
 from sqlalchemy.orm import Session
-from fastapi import HTTPException, status
 from finance_control_be.auth.exceptions import (
     InactiveUserException,
     InvalidCredentialsException,

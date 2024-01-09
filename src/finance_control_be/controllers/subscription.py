@@ -9,7 +9,7 @@ from finance_control_be.dependencies.db_session import get_session
 from finance_control_be.dependencies.pagination import PaginationParameter
 
 from finance_control_be.dependencies.user_information import get_user_information
-from finance_control_be.models.method import Kind, Method
+from finance_control_be.models.method import Method
 from finance_control_be.models.subscription import PeriodUnit, Subscription
 from finance_control_be.models.user import User
 
