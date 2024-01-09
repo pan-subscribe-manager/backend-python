@@ -32,6 +32,6 @@ class Subscription(Base):
     period: Mapped[int] = mapped_column(default=1)
     period_unit: Mapped[PeriodUnit] = mapped_column(SqlEnum(PeriodUnit), nullable=False)
 
-    is_active: Mapped[bool] = mapped_column(default=False)
+    is_active: Mapped[bool] = mapped_column(default=True)
 
     method_id: Mapped[UUID] = mapped_column(ForeignKey("methods.id"))
