@@ -10,7 +10,7 @@ from finance_control_be.dependencies.user_information import get_user_informatio
 from finance_control_be.models.method import Kind, Method
 from finance_control_be.models.user import User
 
-router = APIRouter(prefix="/methods", tags=["user"])
+router = APIRouter(prefix="/methods", tags=["method"])
 
 
 class MethodResponseDto(BaseModel):

@@ -1,7 +1,7 @@
 import os
 from fastapi import FastAPI
 
-from finance_control_be.controllers import auth, internal, method, user
+from finance_control_be.controllers import auth, internal, method, user, subscription
 from finance_control_be.database import SessionLocal
 from finance_control_be.models import Base
 
@@ -16,3 +16,4 @@ app.include_router(auth.router)
 app.include_router(user.router)
 app.include_router(internal.router)
 app.include_router(method.router)
+app.include_router(subscription.router)
