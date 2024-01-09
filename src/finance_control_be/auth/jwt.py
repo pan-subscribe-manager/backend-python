@@ -16,7 +16,7 @@ from finance_control_be.auth.exceptions import (
 )
 
 from finance_control_be.auth.payload import UserAuthenticationPayload
-from finance_control_be.dependencies.password_manager import PasswordManager
+from finance_control_be.auth.password import PasswordManager
 from finance_control_be.models.user import User
 
 

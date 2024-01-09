@@ -3,7 +3,7 @@ from sqlalchemy import String
 from finance_control_be.models.base import Base
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from finance_control_be.dependencies.password_manager import PasswordManager
+from finance_control_be.auth.password import PasswordManager
 from finance_control_be.models.method import Method
 
 class User(Base):
@@ -27,7 +27,6 @@ class User(Base):
 
     def verify_password(self, password: str, password_manager: PasswordManager) -> bool:
         return password_manager.verify_password(input_password=password, hash=self.password)
-
 
     def get_full_name(self) -> str:
         return self.full_name or self.username
