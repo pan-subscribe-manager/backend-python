@@ -8,7 +8,7 @@ router = APIRouter(prefix="/internal", tags=["user", "authentication", "internal
 if DEBUG:
     @router.post("/users/initialize")
     def initialize_user() -> None:
-        from finance_control_be.dependencies.password_manager import PasswordManager
+        from finance_control_be.auth.password import PasswordManager
         from finance_control_be.models.user import User
         from finance_control_be.database import SessionLocal
 
