@@ -1,0 +1,28 @@
+[project]
+name = "finance-control-be"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "pan93412", email = "pan93412@gmail.com" }
+]
+dependencies = [
+    "fastapi>=0.108.0",
+    "uvicorn>=0.25.0",
+    "argon2-cffi>=23.1.0",
+    "sqlalchemy>=2.0.25",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "black>=23.12.1",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
