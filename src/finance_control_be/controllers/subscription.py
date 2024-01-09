@@ -26,11 +26,11 @@ def verify_method_access(
         .count()
     )
     if method == 0:
-        raise HTTPException(status_code=403)
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN)
 
 
 router = APIRouter(
-    prefix="/methods/<method_id>/subscriptions",
+    prefix="/methods/{method_id}/subscriptions",
     tags=["subscription"],
     dependencies=[Depends(verify_method_access)],
 )
