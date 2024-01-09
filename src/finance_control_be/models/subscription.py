@@ -1,8 +1,9 @@
+from datetime import date
 from decimal import Decimal
 from enum import Enum
 from uuid import UUID, uuid4
 
-from sqlalchemy import ForeignKey, String
+from sqlalchemy import ForeignKey, String, Date as SqlDate
 from finance_control_be.models.base import Base
 from sqlalchemy import DECIMAL as SqlDecimal, Enum as SqlEnum
 from sqlalchemy.orm import Mapped, mapped_column
@@ -31,6 +32,7 @@ class Subscription(Base):
 
     period: Mapped[int] = mapped_column(default=1)
     period_unit: Mapped[PeriodUnit] = mapped_column(SqlEnum(PeriodUnit), nullable=False)
+    renew_at: Mapped[date] = mapped_column(SqlDate(), nullable=False)  # we don't need to store time
 
     is_active: Mapped[bool] = mapped_column(default=True)
 
