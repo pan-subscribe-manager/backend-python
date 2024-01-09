@@ -1,2 +1,1 @@
-def hello():
-    return "Hello from finance-control-be!"
+from .app import app as app
