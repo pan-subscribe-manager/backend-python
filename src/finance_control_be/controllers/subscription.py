@@ -73,7 +73,7 @@ class SubscriptionPostDto(BaseModel):
     period: int
     period_unit: PeriodUnit
 
-    is_active: bool
+    is_active: bool | None = None
 
     def to_entity(self, method_id: UUID) -> Subscription:
         return Subscription(
