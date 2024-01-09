@@ -46,7 +46,7 @@ class SubscriptionResponseDto(BaseModel):
 
     period: int
     period_unit: PeriodUnit
-    renew_at: date
+    purchased_at: date
 
     is_active: bool
 
@@ -60,7 +60,7 @@ class SubscriptionResponseDto(BaseModel):
             currency=subscription.currency,
             period=subscription.period,
             period_unit=subscription.period_unit,
-            renew_at=subscription.renew_at,
+            purchased_at=subscription.purchased_at,
             is_active=subscription.is_active,
         )
 
@@ -74,7 +74,7 @@ class SubscriptionPostDto(BaseModel):
 
     period: int
     period_unit: PeriodUnit
-    renew_at: date = datetime.now().date()
+    purchased_at: date = datetime.now().date()
 
     is_active: bool | None = None
 
@@ -86,7 +86,7 @@ class SubscriptionPostDto(BaseModel):
             currency=self.currency,
             period=self.period,
             period_unit=self.period_unit,
-            renew_at=self.renew_at,
+            purchased_at=self.purchased_at,
             is_active=self.is_active,
             method_id=method_id,
         )
@@ -101,7 +101,7 @@ class SubscriptionPatchDto(BaseModel):
 
     period: int | None = None
     period_unit: PeriodUnit | None = None
-    renew_at: date | None = None
+    purchased_at: date | None = None
 
     is_active: bool | None = None
 
@@ -112,7 +112,7 @@ class SubscriptionPatchDto(BaseModel):
         subscription.currency = self.currency or subscription.currency
         subscription.period = self.period or subscription.period
         subscription.period_unit = self.period_unit or subscription.period_unit
-        subscription.renew_at = self.renew_at or subscription.renew_at
+        subscription.purchased_at = self.purchased_at or subscription.purchased_at
         subscription.is_active = self.is_active or subscription.is_active
 
 

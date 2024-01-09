@@ -32,7 +32,7 @@ class Subscription(Base):
 
     period: Mapped[int] = mapped_column(default=1)
     period_unit: Mapped[PeriodUnit] = mapped_column(SqlEnum(PeriodUnit), nullable=False)
-    renew_at: Mapped[date] = mapped_column(SqlDate(), nullable=False)  # we don't need to store time
+    purchased_at: Mapped[date] = mapped_column(SqlDate(), nullable=False)  # we don't need to store time
 
     is_active: Mapped[bool] = mapped_column(default=True)
 
