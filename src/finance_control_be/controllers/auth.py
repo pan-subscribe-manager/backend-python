@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from finance_control_be.auth.exceptions import InvalidCredentialsException
-from finance_control_be.auth.jwt import AccessTokenManager
+from finance_control_be.auth.jwt import AccessTokenManager, create_access_token_manager
 
 from finance_control_be.dependencies.db_session import get_session
 
@@ -19,7 +19,7 @@ class Token(BaseModel):
 @router.post("/", response_model=Token)
 async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
-    access_token_manager: Annotated[AccessTokenManager, Depends()],
+    access_token_manager: Annotated[AccessTokenManager, Depends(create_access_token_manager)],
     session: Annotated[Session, Depends(get_session)],
 ):
     try:

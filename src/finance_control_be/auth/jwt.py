@@ -80,3 +80,7 @@ class AccessTokenManager:
         to_encode = {**data, "exp": expire}
         encoded_jwt = jwt.encode(to_encode, self.secret_key, algorithm=self.algorithm)
         return encoded_jwt
+
+
+def create_access_token_manager() -> AccessTokenManager:
+    return AccessTokenManager()

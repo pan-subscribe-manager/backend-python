@@ -6,6 +6,8 @@ from sqlalchemy.orm import Mapped, mapped_column
 from finance_control_be.dependencies.password_manager import PasswordManager
 
 class User(Base):
+    __tablename__ = "users"
+
     username: Mapped[str] = mapped_column(String(64), primary_key=True)
     password: Mapped[str] = mapped_column(String(128), nullable=False)  # argon2
     full_name: Mapped[str] = mapped_column(String(128))  # fallback to username
@@ -14,8 +16,8 @@ class User(Base):
 
 
     @classmethod
-    def new_hashed(cls, username: str, password: str, password_manager: PasswordManager) -> Self:
-        user = cls(username=username)
+    def new_hashed(cls, password: str, password_manager: PasswordManager) -> Self:
+        user = cls()
         user.password = password_manager.hash_password(password=password)
 
         return user

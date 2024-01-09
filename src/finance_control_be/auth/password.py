@@ -14,3 +14,7 @@ class PasswordManager:
             return True
         except argon2.exceptions.VerifyMismatchError:
             return False
+
+
+def create_password_manager() -> PasswordManager:
+    return PasswordManager()
