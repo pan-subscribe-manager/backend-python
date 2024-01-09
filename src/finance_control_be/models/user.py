@@ -1,18 +1,21 @@
 from typing import Self
 from sqlalchemy import String
 from finance_control_be.models.base import Base
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from finance_control_be.dependencies.password_manager import PasswordManager
+from finance_control_be.models.method import Method
 
 class User(Base):
     __tablename__ = "users"
 
     username: Mapped[str] = mapped_column(String(64), primary_key=True)
     password: Mapped[str] = mapped_column(String(128), nullable=False)  # argon2
-    full_name: Mapped[str] = mapped_column(String(128))  # fallback to username
+    full_name: Mapped[str | None] = mapped_column(String(128))  # fallback to username
     disabled: Mapped[bool] = mapped_column(default=False)
-    email: Mapped[str] = mapped_column(String(256))  # optional
+    email: Mapped[str | None] = mapped_column(String(256))  # optional
+
+    methods: Mapped[list[Method]] = relationship()
 
 
     @classmethod

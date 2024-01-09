@@ -10,9 +10,16 @@ router = APIRouter(prefix="/users", tags=["user"])
 
 class UserInformationResponseDto(BaseModel):
     username: str
-    full_name: str
+    full_name: str | None
+    email: str | None
 
 
 @router.get("/me")
-def user_info(user_information: Annotated[User, Depends(get_user_information)]) -> UserInformationResponseDto:
-    return UserInformationResponseDto(username=user_information.username, full_name=user_information.full_name)
+def user_info(
+    user_information: Annotated[User, Depends(get_user_information)]
+) -> UserInformationResponseDto:
+    return UserInformationResponseDto(
+        username=user_information.username,
+        full_name=user_information.full_name,
+        email=user_information.email,
+    )
