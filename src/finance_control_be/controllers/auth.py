@@ -21,7 +21,7 @@ async def login_for_access_token(
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
     access_token_manager: Annotated[AccessTokenManager, Depends(create_access_token_manager)],
     session: Annotated[Session, Depends(get_session)],
-):
+) -> Token:
     try:
         token = access_token_manager.authenticate_and_create_access_token(
             form_data.username, form_data.password, session
@@ -32,4 +32,4 @@ async def login_for_access_token(
             detail="Incorrect username or password",
         )
 
-    return {"access_token": token, "token_type": "bearer"}
+    return Token(access_token=token, token_type="bearer")

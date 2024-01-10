@@ -67,7 +67,7 @@ def list_methods(
     user: Annotated[User, Depends(get_user_information)],
     pagination: Annotated[PaginationParameter, Depends()],
     session: Annotated[Session, Depends(get_session)],
-):
+) -> list[MethodResponseDto]:
     methods = (session.query(Method).filter(Method.username == user.username)
         .offset(pagination.offset)
         .limit(pagination.limit)
@@ -81,7 +81,7 @@ def get_method(
     user: Annotated[User, Depends(get_user_information)],
     method_id: UUID,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> MethodResponseDto:
     method = session.query(Method).filter(Method.username == user.username, Method.id == method_id).first()
     if method is None:
         raise HTTPException(status_code=404)
@@ -94,7 +94,7 @@ def create_method(
     user: Annotated[User, Depends(get_user_information)],
     method: MethodPostDto,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> MethodResponseDto:
     method_entity = method.to_entity(user.username)
     session.add(method_entity)
     session.commit()
@@ -108,7 +108,7 @@ def update_method(
     method_id: UUID,
     method: MethodPatchDto,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> MethodResponseDto:
     current_method = session.query(Method).filter(Method.username == user.username, Method.id == method_id).first()
     if current_method is None:
         raise HTTPException(status_code=404)
@@ -125,7 +125,7 @@ def delete_method(
     user: Annotated[User, Depends(get_user_information)],
     method_id: UUID,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> None:
     method = session.query(Method).filter(Method.username == user.username, Method.id == method_id).first()
     if method is None:
         raise HTTPException(status_code=404)

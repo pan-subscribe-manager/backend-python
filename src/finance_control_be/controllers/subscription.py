@@ -130,7 +130,7 @@ def list_subscriptions(
     method_id: UUID,
     pagination: Annotated[PaginationParameter, Depends()],
     session: Annotated[Session, Depends(get_session)],
-):
+) -> list[SubscriptionResponseDto]:
     subscriptions = (
         session.query(Subscription)
         .filter(Subscription.method_id == method_id)
@@ -149,7 +149,7 @@ def list_subscriptions(
 def get_subscription(
     subscription_id: UUID,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> SubscriptionResponseDto:
     subscription = (
         session.query(Subscription).filter(Subscription.id == subscription_id).first()
     )
@@ -165,7 +165,7 @@ def create_subscription(
     method_id: UUID,
     subscription: SubscriptionPostDto,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> SubscriptionResponseDto:
     subscription_entity = subscription.to_entity(method_id=method_id)
     session.add(subscription_entity)
     session.commit()
@@ -178,7 +178,7 @@ def update_subscription(
     subscription_id: UUID,
     subscription: SubscriptionPatchDto,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> SubscriptionResponseDto:
     current_subscription = (
         session.query(Subscription).filter(Subscription.id == subscription_id).first()
     )
@@ -196,7 +196,7 @@ def update_subscription(
 def delete_subscription(
     subscription_id: UUID,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> None:
     subscription = (
         session.query(Subscription).filter(Subscription.id == subscription_id).first()
     )
@@ -243,7 +243,7 @@ def get_estimated_next_paid_date(
 def mark_subscription_as_purchased(
     subscription_id: UUID,
     session: Annotated[Session, Depends(get_session)],
-):
+) -> None:
     subscription = (
         session.query(Subscription).filter(Subscription.id == subscription_id).first()
     )
