@@ -34,6 +34,9 @@ class AccessTokenManager:
             access_token_expire_minutes or ACCESS_TOKEN_EXPIRE_MINUTES
         )
 
+    def get_password_manager(self) -> PasswordManager:
+        return self.password_manager
+
     def authenticate_and_create_access_token(
         self, username: str, password: str, session: Session
     ) -> str:
